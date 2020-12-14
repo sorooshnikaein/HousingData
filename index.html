@@ -3,7 +3,7 @@
   <head>
     <meta charset='utf-8' />
     <div class="mapchange2"><button onclick="createlayeryear('2000')">Year 2000</button></div>
-    <div class="mapchange3"><button onclick="createlayeryear('2020')">Year 2020</button></div>
+    <div class="mapchange3"><button onclick="getrows(true)">reverser</button></div>
 
     <div class="mapchange4"><button onclick="loopthrough()">Loop</button></div>
     <div id="Year"></div>
@@ -205,8 +205,9 @@
     font-weight: bold;
     position: absolute;
     z-index: 3;
-    left: 40%;
-    top: 10px;
+width: 100%;
+text-align: center;
+    top: 18px;
     color: rgba(155, 19, 0,1);
 }
 .business-checker-single{
@@ -263,33 +264,51 @@ td{
     function  numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-    async function getrows(){
-      function compare( a, b ) {
-  if ( a.numberten < b.numberten ){
-    return 1;
-  }
-  if ( a.numberten > b.numberten ){
-    return -1;
-  }
-  return 0;
-}
+        var vm = new Vue({
+        el: '#tdvalues',
+            data: {
+              items: []
+            }
+      })
+    async function getrows(reverser){
+            function compare( a, b ) {
+        if ( a.numberten < b.numberten ){
+          return -1;
+        }
+        if ( a.numberten > b.numberten ){
+          return 1;
+        }
+        return 0;
+      }
+      function comparereverse( a, b ) {
+        if ( a.numberten < b.numberten ){
+          return 1;
+        }
+        if ( a.numberten > b.numberten ){
+          return -1;
+        }
+        return 0;
+      }
       var values = await fetch("./Video_housingdata.json")
       var value_data = await values.json() 
       value_data = value_data.filter((e) => e["values"]["2000"])
       values = value_data.map((e) => {  
-        return {number: (Math.round(((e["values"]["2020"] - e["values"]["2000"]) /  e["values"]["2000"]) * 10000 ) / 100), numberten: (Math.round(((e["values"]["2020"] - e["values"]["2010"]) /  e["values"]["2010"]) * 10000 ) / 100), County: e.Zip, ST: e.ST, 
-        B: e["values"]["2000"], A: e["values"]["2020"], M: e["values"]["2010"]}
+        M =  Math.round(e["values"]["2010"] * 1.19)
+        B = Math.round(e["values"]["2000"] * 1.51)
+        return {number: (Math.round(((e["values"]["2020"] - B) /  B) * 10000 ) / 100), numberten: (Math.round(((e["values"]["2020"] - M) / M) * 10000 ) / 100), County: e.Zip, ST: e.ST, 
+        B, A: e["values"]["2020"], M}
       })
-      values = values.sort(compare)
-      values = values.slice(0, 100);
+      if(reverser){
+        values = values.sort(compare)
+      }else{
+        values = values.sort(comparereverse)
+      }
+      values = values.slice(0, 250);
       values = values.map((e) => {return{number: e.number.toString() + "%",numberten: e.numberten.toString() + "%", County: numberWithCommas(e.County),ST: e.ST,A: "$" + numberWithCommas(e.A), M: "$" + numberWithCommas(e.M), B: "$" + numberWithCommas(e.B)} })
       console.log(values)
-      var example1 = new Vue({
-        el: '#tdvalues',
-            data: {
-              items: values
-            }
-      })
+      Vue.set(vm.items, newValue)
+
+
     }
     getrows()
     var ctx = document.getElementById('myChart').getContext('2d');
