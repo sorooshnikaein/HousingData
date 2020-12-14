@@ -273,7 +273,7 @@ td{
   }
   return 0;
 }
-      var values = await fetch("./video_housingdata.json")
+      var values = await fetch("./Video_housingdata.json")
       var value_data = await values.json() 
       value_data = value_data.filter((e) => e["values"]["2000"])
       values = value_data.map((e) => {  
@@ -344,7 +344,7 @@ td{
       document.getElementById("Year").innerHTML = "Housing Cost " + number;
 
       document.getElementById("restaurants").style.display = "block"
-      var values = await fetch("./video_housingdata.json")
+      var values = await fetch("./Video_housingdata.json")
       var value_data = await values.json() 
       value_data = value_data.filter((e) => e["values"][number])
       values = value_data.map((e) => { /*console.log(e["values"][number]);*/ 
