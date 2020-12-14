@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <div class="mapchange2"><button onclick="createlayeryear('2000')">Year 2000</button></div>
+    <div class="mapchange3"><button onclick="createlayeryear('2020')">Year 2020</button></div>
+
+    <div class="mapchange4"><button onclick="loopthrough()">Loop</button></div>
+    <div id="Year"></div>
+    <div class="mapvalue" id="restaurants">
+      <div class="image-total">
+        <div style="background: rgba(155, 19, 0,1)" class="image-stable"></div><div class="image-text">Above $800K</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(165, 19, 0,.9)" class="image-stable"></div><div class="image-text">$700K - 800K</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(180,10,0, .8)" class="image-stable"></div><div class="image-text">$600K - 700K</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(190,20,0, .75)" class="image-stable"></div><div class="image-text">$500K - 600K</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(200,35,0, .5)" class="image-stable"></div><div class="image-text">$400K - 500K</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(220,45,0, .4)" class="image-stable"></div><div class="image-text">$300K - 400K</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(230,55,0, .2)" class="image-stable"></div><div class="image-text">$200K - 300K</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(230,65,0, .1)" class="image-stable"></div><div class="image-text">$100K - 200K</div>
+      </div>
+    </div>
+<!--     <title></title>
+    <div class="mapchange3"><button onclick="add_markers()">Markers</button></div>
+
+
+    <div class="mapvalue" id="expense-income">
+      <div class="image-total">
+        <div style="background: rgba(0,0,90, .95)" class="image-stable"></div><div class="image-text">Above 15%</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0,0,110, .85)" class="image-stable"></div><div class="image-text">10% - 15%</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0,0,150, .65)" class="image-stable"></div><div class="image-text">8% - 10%</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0,0,160, .62)" class="image-stable"></div><div class="image-text">6% - 8%</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0,0,180, .58)" class="image-stable"></div><div class="image-text">4% - 6%</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0,0,200, .5)" class="image-stable"></div><div class="image-text">2% - 4%</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0,0,220, .4)" class="image-stable"></div><div class="image-text">Under 2%</div>
+      </div>
+    </div>
+
+
+    <div class="mapvalue" id="expense">
+      <div class="image-total">
+        <div style="background: rgba(0, 60, 0, .98)" class="image-stable"></div><div class="image-text">Above $30,000</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0, 70, 0, .94)" class="image-stable"></div><div class="image-text">$26,000 - $30,000</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0, 80, 0, .9)" class="image-stable"></div><div class="image-text">$22,000 - $26,000</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0, 90, 0, .86)" class="image-stable"></div><div class="image-text">$18,000 - $22,000</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0, 130, 0, .80)" class="image-stable"></div><div class="image-text">$14,000 - $18,000</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0, 170, 0, .7)" class="image-stable"></div><div class="image-text">$10,000 - $14,000</div>
+      </div>
+            <div class="image-total">
+        <div style="background: rgba(0, 210, 0, .5)" class="image-stable"></div><div class="image-text">Under $10,000</div>
+      </div>
+    </div> -->
+
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet' />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    .image-total{
+      margin: 5px 0px;
+    }
+    .image-stable{
+      width: 13px;
+      height: 13px;
+      display: inline-block;
+    }
+    button{
+      font-size: 10px
+    }
+    .image-text{
+          display: inline-block;
+    position: absolute;
+    width: 130px;
+    margin-left: 20px;
+    }
+    .mapchange{
+      position: absolute;
+      z-index: 5;
+    }
+    .mapchange2{
+      position: absolute;
+      z-index: 5;
+      left: 178px
+    }
+    .mapboxgl-ctrl-attrib{
+      display: none;
+    }
+    .mapvalue{
+    position: absolute;
+    z-index: 5;
+    bottom: 70px;
+    /*right: 800px;*/
+    background: #fff;
+    padding: 0px 7px;
+    width: 130px;
+    border-radius: 5px;
+    font-size: 12px;
+    left: 50px;
+    }
+    .mapchange3{
+      position: absolute;
+      z-index: 5;
+      left: 110px
+    }
+    .mapchange4{
+            position: absolute;
+      z-index: 5;
+      left: 240px
+    }
+      #map {
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        position: absolute;
+
+      }
+      .marker-pin {
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  background: #00263E;
+  position: absolute;
+  transform: rotate(-45deg);
+  left: 50%;
+  top: 50%;
+  margin: -15px 0 0 -15px;
+  
+}
+#myChart{
+  position: absolute;
+  top: 100%;
+}
+.marker-pin::before {
+    content: '';
+    width: 24px;
+    height: 24px;
+    margin: 3px 0 0 3px;
+    background: #9e9edc;
+    position: absolute;
+    border-radius: 50%;
+ }
+ .building-mapbox{
+  margin-top: -11px;
+  margin-left: -11px;
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  border-radius: 50%;
+  z-index: 5;
+}
+ .business-checker-image{
+  width: 22px;
+    display: inline-block;
+}
+#restaurants{
+  display: none;
+}
+#Year{
+    font-size: 50px;
+    font-weight: bold;
+    position: absolute;
+    z-index: 3;
+    left: 40%;
+    top: 10px;
+    color: rgba(155, 19, 0,1);
+}
+.business-checker-single{
+  height: 30px;
+}
+#table_total{
+  position: absolute;
+  top: 120%;
+  width: 100%;
+}
+#table_id_length{
+  display: none;
+}
+#table_id_filter{
+  display: none;
+}
+td{
+  text-align: center;
+}
+    </style>
+  </head>
+  <body>
+    <div id='map'></div>
+<canvas id="myChart"></canvas>
+<div id="table_total">
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>County Name</th>
+            <th>State</th>
+            <th>Year 2000</th>
+            <th>Year 2010</th>
+            <th>Year 2020</th>
+            <th>% Change 10 Years</th>
+            <th>% Change 20 Years</th>
+        </tr>
+    </thead>
+    <tbody id="tdvalues">
+        <tr v-for="item in items" :key="item.County">
+            <td>{{item.County}}</td>
+            <td>{{item.ST}}</td>
+            <td>{{item.B}}</td>
+            <td>{{item.M}}</td>
+            <td>{{item.A}}</td>
+            <td>{{item.numberten}}</td>
+            <td>{{item.number}}</td>
+
+        </tr>
+
+    </tbody>
+</table>
+</div>
+  <script>
+    function  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+    async function getrows(){
+      function compare( a, b ) {
+  if ( a.numberten < b.numberten ){
+    return 1;
+  }
+  if ( a.numberten > b.numberten ){
+    return -1;
+  }
+  return 0;
+}
+      var values = await fetch("./video_housingdata.json")
+      var value_data = await values.json() 
+      value_data = value_data.filter((e) => e["values"]["2000"])
+      values = value_data.map((e) => {  
+        return {number: (Math.round(((e["values"]["2020"] - e["values"]["2000"]) /  e["values"]["2000"]) * 10000 ) / 100), numberten: (Math.round(((e["values"]["2020"] - e["values"]["2010"]) /  e["values"]["2010"]) * 10000 ) / 100), County: e.Zip, ST: e.ST, 
+        B: e["values"]["2000"], A: e["values"]["2020"], M: e["values"]["2010"]}
+      })
+      values = values.sort(compare)
+      values = values.slice(0, 100);
+      values = values.map((e) => {return{number: e.number.toString() + "%",numberten: e.numberten.toString() + "%", County: numberWithCommas(e.County),ST: e.ST,A: "$" + numberWithCommas(e.A), M: "$" + numberWithCommas(e.M), B: "$" + numberWithCommas(e.B)} })
+      console.log(values)
+      var example1 = new Vue({
+        el: '#tdvalues',
+            data: {
+              items: values
+            }
+      })
+    }
+    getrows()
+    var ctx = document.getElementById('myChart').getContext('2d');
+    
+    $(document).ready( function () {
+    $('#table_id').DataTable();
+    });
+		mapboxgl.accessToken = 'pk.eyJ1Ijoic25pa2FlaW4iLCJhIjoiY2s1eWNpcWxrMDJvbzNtcDdyb3puNTVrMCJ9.t-VFWsbpRo--tRSLgLa9ng';
+		var map = new mapboxgl.Map({
+		  container: 'map',
+		  style: 'mapbox://styles/mapbox/streets-v10',
+		  center: [-98.5795, 39.8283], // starting position
+		  zoom: 2.2
+		});
+    function createcolor(num){
+        if(num > 800000)
+          return "rgba(155, 19, 0,1)"
+        if(num > 700000)
+          return "rgba(165, 19, 0,.9)"
+        if (num > 600000)
+          return "rgba(180,10,0, .8)"
+        if (num > 500000)
+          return "rgba(190,20,0, .7)"
+        if (num > 400000)
+          return "rgba(200,35,0, .6)"
+        if (num > 300000)
+          return "rgba(220,45,0, .5)"
+        if( num > 200000)
+          return "rgba(230,55,0, .4)"
+        if (num > 150000)
+          return "rgba(230,65,0, .3)"
+        if (num > 100000)
+          return "rgba(230,65,0, .2)"
+        if (num > 50000)
+          return "rgba(230,65,0, .1)"
+
+          return "rgba(230,65,0, .07)"
+    }
+    var loopin = false
+    var yearloop = ["1998", "1999", "2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020" ]
+    function loopthrough(){
+      loopin = !loopin
+      let num = 0
+      function doSetTimeout(i) {
+        setTimeout(function() { createlayeryear(yearloop[i]) }, 1200*i);
+      }
+
+    for (var i = 1; i <= 22; ++i)
+      doSetTimeout(i);
+    }
+    async function createlayeryear(number){
+      document.getElementById("Year").innerHTML = "Housing Cost " + number;
+
+      document.getElementById("restaurants").style.display = "block"
+      var values = await fetch("./video_housingdata.json")
+      var value_data = await values.json() 
+      value_data = value_data.filter((e) => e["values"][number])
+      values = value_data.map((e) => { /*console.log(e["values"][number]);*/ 
+        let color = createcolor(e["values"][number]); 
+
+        return{"type": "Feature", geometry: e.geometry, properties: {"color": color, description:  Math.round(e["values"][number] / 1000).toString() + "K"}}
+      })
+      if(!map.getSource("polygon-color")){
+      map.addSource("polygon-color", {
+          'type': 'geojson',
+          'data': {
+          'type': 'FeatureCollection',
+          'features': values
+          }
+        })
+        map.addLayer({
+          'id': "polygon-color",
+          'type': 'fill',
+          'source': "polygon-color",
+          'layout': {},
+          'maxzoom': 14.5,
+          'paint': {
+            'fill-color': {
+              type: 'identity',
+              property: 'color',
+          },
+          'fill-opacity': 1,
+          }
+          });
+      map.addSource('zipcode_names', {
+        'type': 'geojson',
+        'data': {
+          'type': 'FeatureCollection',
+          'features': values
+        }
+        });
+        map.addLayer({
+          'id': 'zipcode_names',
+          'type': 'symbol',
+          'source': 'zipcode_names',
+          'layout': {
+          'text-field': ['get', 'description'],
+          'text-variable-anchor': ['top', 'bottom', 'left', 'right'],
+          'text-radial-offset': 0.5,
+          'text-justify': 'auto',
+          }
+          });
+      }else{
+      map.getSource('polygon-color').setData({
+        'type': 'FeatureCollection',
+        'features': values
+      });
+     map.getSource('zipcode_names').setData({
+        'type': 'FeatureCollection',
+        'features': values
+      });
+      }
+    }
+
+
+
+
+    </script>
+  </body>
+</html>
