@@ -202,7 +202,7 @@
   display: none;
 }
 #Year{
-    font-size: 50px;
+    font-size: 40px;
     font-weight: bold;
     position: absolute;
     z-index: 3;
@@ -358,7 +358,7 @@ td{
   var after = "$120K"
   var depreciation = "$121K"
   var difference = "~$1,000"
-  var speed = 90
+  var speed = 140
 function typeWriter(value, location) {
   if (i[location] < value.length) {
     document.getElementById(location).innerHTML += value.charAt(i[location]);
@@ -461,7 +461,7 @@ function typeWriter(value, location) {
       doSetTimeout(i);
     }
     async function createlayeryear(number){
-      document.getElementById("Year").innerHTML = "Housing Cost " + number;
+      document.getElementById("Year").innerHTML = "House Prices " + number;
 
       document.getElementById("restaurants").style.display = "block"
       var values = await fetch("./Video_housingdata.json")
