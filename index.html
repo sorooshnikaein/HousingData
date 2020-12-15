@@ -85,6 +85,7 @@
         <div style="background: rgba(0, 210, 0, .5)" class="image-stable"></div><div class="image-text">Under $10,000</div>
       </div>
     </div> -->
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
@@ -215,7 +216,12 @@ text-align: center;
 }
 #table_total{
   position: absolute;
-  top: 120%;
+  top: 210%;
+  width: 100%;
+}
+#depreciation-values{
+  position: absolute;
+  top: 105%;
   width: 100%;
 }
 #table_id_length{
@@ -223,6 +229,53 @@ text-align: center;
 }
 #table_id_filter{
   display: none;
+}
+.grid-container {
+display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 30px;
+    padding: 10px;
+    margin-top: 52px;
+    font-family: consolas;
+    font-size: 22px;
+}
+.grid-value{
+  text-align: center;
+  font-weight: bold;
+}
+.grid-before{
+  color: #000480;
+}
+.grid-after{
+  color: red;
+}
+#before{
+  margin-bottom: 120px;
+}
+#arrow_up {
+    transform: rotate(-121deg);
+
+}
+#arrow_pos{
+      color: red;
+    position: absolute;
+    font-size: 100px;
+right: 46%;
+    top: 49%;
+    display: none;
+}
+.fa-angle-right{
+      transform: rotate(-277deg);
+    position: absolute;
+    margin-left: -15px;
+    /* margin-bottom: -167px; */
+    bottom: -53px;
+}
+.subtract{
+      position: absolute;
+    top: 0px;
+    left: 14px;
+    font-size: 142px;
 }
 td{
   text-align: center;
@@ -232,6 +285,37 @@ td{
   <body>
     <div id='map'></div>
 <canvas id="myChart"></canvas>
+<div id="depreciation-values">
+  <div id="buttons_control">
+    <button onclick="typeWriter('2010 Real Estate Investment:', 'invest2010')">1</button>
+    <button onclick="typeWriter('$100,000', 'before')">2</button>
+    <button onclick="typeWriter('2020 Real Estate Value:', 'invest2020')">3</button>
+    <button onclick="typeWriter('$120,000', 'after')">4</button>
+    <button onclick="typeWriter('2010 Inflation Adjusted Investment:', 'investinflate')">5</button>
+    <button onclick="typeWriter('$121,000', 'depreciation')">6</button>
+    <button onclick="turnon()">7</button>
+    <button onclick="typeWriter('Net Loss', 'investloss')">8</button>
+    <button onclick="typeWriter('~$1,000', 'difference')">9</button>
+
+  </div>
+  <div id="arrow_pos">
+  <div id="arrow_up">
+  <div id="arrow_across">|</div>
+  <i class="fas fa-angle-right"></i>
+  </div>
+  <div class="subtract">-</div>
+  </div>
+  <div class="grid-container">
+  <div class="grid-value grid-before" id="invest2010"></div>
+  <div class="grid-value" id="invest2020"></div>
+  <div class="grid-value grid-before" id="before"></div>
+  <div class="grid-value" id="after"></div>
+  <div class="grid-value grid-before" id="investinflate"></div>
+  <div class="grid-value  grid-after" id="investloss"></div>
+  <div class="grid-value grid-before" id="depreciation"></div>
+  <div class="grid-value grid-after" id="difference"></div>
+</div>
+</div>
 <div id="table_total">
 <table id="table_id" class="display">
     <thead>
@@ -259,17 +343,29 @@ td{
 
     </tbody>
 </table>
+
 </div>
   <script>
+  function turnon(){
+    document.getElementById("arrow_pos").style.display = "block"
+  }
     function  numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
-        var vm = new Vue({
-        el: '#tdvalues',
-            data: {
-              items: []
-            }
-      })
+
+  var i = {"before": 0, "after": 0, "depreciation": 0,"difference": 0, invest2010: 0,  invest2020: 0, investinflate: 0, investloss: 0}
+  var before = "$100K"
+  var after = "$120K"
+  var depreciation = "$121K"
+  var difference = "~$1,000"
+  var speed = 100
+function typeWriter(value, location) {
+  if (i[location] < value.length) {
+    document.getElementById(location).innerHTML += value.charAt(i[location]);
+    i[location]+=1;
+    setTimeout(() => typeWriter(value, location), speed);
+  }
+}
     async function getrows(reverser){
             function compare( a, b ) {
         if ( a.numberten < b.numberten ){
@@ -306,8 +402,13 @@ td{
       values = values.slice(0, 250);
       values = values.map((e) => {return{number: e.number.toString() + "%",numberten: e.numberten.toString() + "%", County: numberWithCommas(e.County),ST: e.ST,A: "$" + numberWithCommas(e.A), M: "$" + numberWithCommas(e.M), B: "$" + numberWithCommas(e.B)} })
       console.log(values)
-      Vue.set(vm.items, newValue)
 
+        var vm = new Vue({
+        el: '#tdvalues',
+            data: {
+              items: values
+            }
+      })
 
     }
     getrows()
