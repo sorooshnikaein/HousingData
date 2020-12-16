@@ -411,7 +411,11 @@ function typeWriter(value, location) {
       })
 
     }
-    getrows()
+        var url_string =  window.location.href
+var url = new URL(url_string);
+var c = url.searchParams.get("rev");
+console.log(c, 'cval')
+        getrows(c)
     var ctx = document.getElementById('myChart').getContext('2d');
     
     $(document).ready( function () {
