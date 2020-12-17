@@ -320,24 +320,24 @@ td{
 <table id="table_id" class="display">
     <thead>
         <tr>
-            <th>County Name</th>
-            <th>State</th>
+            <th style="font-weight: bold;">County Name</th>
+            <th style="font-weight: bold;">State</th>
             <th>Year 2000</th>
             <th>Year 2010</th>
             <th>Year 2020</th>
-            <th>% Change 10 Years</th>
-            <th>% Change 20 Years</th>
+            <th style="font-weight: bold;">% Change 10 Years</th>
+            <!-- <th>% Change 20 Years</th> -->
         </tr>
     </thead>
     <tbody id="tdvalues">
         <tr v-for="item in items" :key="item.County">
-            <td>{{item.County}}</td>
-            <td>{{item.ST}}</td>
+            <td style="font-weight: bold; font-size: 20px;">{{item.County}}</td>
+            <td style="font-weight: bold;  font-size: 20px;">{{item.ST}}</td>
             <td>{{item.B}}</td>
-            <td>{{item.M}}</td>
-            <td>{{item.A}}</td>
-            <td>{{item.numberten}}</td>
-            <td>{{item.number}}</td>
+            <td style="font-weight: bold;">{{item.M}}</td>
+            <td style="font-weight: bold;">{{item.A}}</td>
+            <td style="font-weight: bold; font-size: 20px;">{{item.numberten}}</td>
+            <!-- <td>{{item.number}}</td> -->
 
         </tr>
 
